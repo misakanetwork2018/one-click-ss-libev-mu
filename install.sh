@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GETOPT_ARGS=`getopt -o k:r -l key:,run -- "$@"`
+GETOPT_ARGS=`getopt -o k::r -l key::,run -- "$@"`
 eval set -- "$GETOPT_ARGS"
 OLD_IFS="$IFS"
 IFS=" "
@@ -13,8 +13,9 @@ run=false
 while [ -n "$1" ]
 do
 	case "$1" in
-		-k|--key) key=$OPTARG;shift 1;;
+		-k|--key) key=$OPTARG;shift 2;;
 		-r|--run) run=true;shift 1;;
+		--) shift 1;;
         esac
 done
 
