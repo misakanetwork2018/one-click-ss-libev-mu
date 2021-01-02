@@ -84,6 +84,18 @@ ss_download_url=`curl -s https://api.github.com/repos/shadowsocks/shadowsocks-li
 mu_download_url=`curl -s https://api.github.com/repos/misakanetwork2018/ss-libev-mu/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url"`
 ss_install_dir=/usr/local/shadowsocks-libev
 
+# install libsodium
+if [ ! -f "/etc/ld.so.conf.d/usr_local_lib.conf" ]; then
+wget -O /tmp/libsodium-1.0.17.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.17/libsodium-1.0.17.tar.gz
+if [ ! -f "/tmp/libsodium-1.0.17.tar.gz" ]; then
+echo "Download fail. Please try again."
+exit 1;
+fi
+tar xf /tmp/libsodium-1.0.17.tar.gz -C /tmp && cd /tmp/libsodium-1.0.17
+./configure && make -j2 && make install
+echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
+ldconfig
+fi
 
 # install shadowsocks-libev
 echo -e "\033[42;34mInstall Shadowsocks-libev\033[0m"
