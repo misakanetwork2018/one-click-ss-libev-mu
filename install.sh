@@ -82,15 +82,14 @@ instdpec $DISTRO;
 # config
 ss_download_url=`curl -s https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url"`
 mu_download_url=`curl -s https://api.github.com/repos/misakanetwork2018/ss-libev-mu/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url"`
-work_dir=/usr/src
+work_dir=/tmp
 ss_install_dir=/usr/local/shadowsocks-libev
 
 
 # install shadowsocks-libev
 echo -e "\033[42;34mInstall Shadowsocks-libev\033[0m"
-wget -c -O $work_dir/ss-libev.tar.gz $ss_download_url
-tar zxf $work_dir/ss-libev.tar.gz
-cd ss-libev
+wget -c -O $work_dir/ss-libev.tar.gz $ss_download_url && tar zxf $work_dir/ss-libev.tar.gz
+cd $work_dir/shadowsocks-libev-*
 ./configure --prefix=$ss_install_dir --disable-documentation
 make && make install
 if [ $? -ne 0 ]; then
