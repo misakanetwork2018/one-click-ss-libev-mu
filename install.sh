@@ -88,7 +88,7 @@ ss_install_dir=/usr/local/shadowsocks-libev
 # install shadowsocks-libev
 echo -e "\033[42;34mInstall Shadowsocks-libev\033[0m"
 wget -c -O /tmp/ss-libev.tar.gz $ss_download_url
-tar zxf /tmp/ss-libev.tar.gz
+tar zxf /tmp/ss-libev.tar.gz -C /tmp
 cd /tmp/shadowsocks-libev-*
 ./configure --prefix=$ss_install_dir --disable-documentation
 make && make install
