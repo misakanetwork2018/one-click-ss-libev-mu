@@ -85,6 +85,7 @@ mu_download_url=`curl -s https://api.github.com/repos/misakanetwork2018/ss-libev
 ss_install_dir=/usr/local/shadowsocks-libev
 
 # install libsodium
+echo -e "\033[42;34mInstall libsodium\033[0m"
 if [ ! -f "/etc/ld.so.conf.d/usr_local_lib.conf" ]; then
 wget -O /tmp/libsodium-1.0.17.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.17/libsodium-1.0.17.tar.gz
 if [ ! -f "/tmp/libsodium-1.0.17.tar.gz" ]; then
