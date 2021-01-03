@@ -163,6 +163,8 @@ cat > /etc/ss_mu.json <<EOF
 EOF
 
 systemctl daemon-reload
+systemctl stop shadowsocks.service
+systemctl stop shadowsocks-mu.service
 systemctl enable shadowsocks.service
 systemctl enable shadowsocks-mu.service
 
