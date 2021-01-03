@@ -115,7 +115,8 @@ ln -s $ss_install_dir/bin/ss-server /usr/bin/ss-server
 ln -s $ss_install_dir/bin/ss-manager /usr/bin/ss-manager
 
 # install ss-mu-go
-wget -c -O /usr/bin/ss-libev-mu $ss_download_url
+echo -e "\033[42;34mInstall Shadowsocks-libev manyuser manager\033[0m"
+wget -c -O /usr/bin/ss-libev-mu $mu_download_url
 chmod a+x /usr/bin/ss-libev-mu
 # set systemd service
 cat > /etc/systemd/system/shadowsocks.service <<EOF
@@ -157,18 +158,17 @@ cat > /etc/ss_mu.json <<EOF
     "manager_address": "/var/run/shadowsocks-manager.sock",
     "bind_address": "/var/run/ss-libev-mu.sock",
     "key": "${key}",
-    "address": "127.0.0.1:8080"
+    "address": "0.0.0.0:8080"
 }
 EOF
 
-echo "4. Run"
 systemctl daemon-reload
 systemctl enable shadowsocks.service
 systemctl enable shadowsocks-mu.service
 
 # If run
-if [ $run ]
-then
+if [ $run ];then
+echo -e "\033[42;34mRun Shadowsocks-libev\033[0m"
 systemctl start shadowsocks.service
 systemctl start shadowsocks-mu.service
 fi
