@@ -85,8 +85,8 @@ mu_download_url=`curl -s https://api.github.com/repos/misakanetwork2018/ss-libev
 ss_install_dir=/usr/local/shadowsocks-libev
 
 # install libsodium
-echo -e "\033[42;34mInstall libsodium\033[0m"
 if [ ! -f "/etc/ld.so.conf.d/usr_local_lib.conf" ]; then
+echo -e "\033[42;34mInstall libsodium\033[0m"
 wget -O /tmp/libsodium-1.0.17.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.17/libsodium-1.0.17.tar.gz
 if [ ! -f "/tmp/libsodium-1.0.17.tar.gz" ]; then
 echo "Download fail. Please try again."
@@ -100,7 +100,7 @@ fi
 
 # install shadowsocks-libev
 echo -e "\033[42;34mInstall Shadowsocks-libev\033[0m"
-wget -c -O /tmp/ss-libev.tar.gz $ss_download_url
+wget -O /tmp/ss-libev.tar.gz $ss_download_url
 tar zxf /tmp/ss-libev.tar.gz -C /tmp
 cd /tmp/shadowsocks-libev-*
 ./configure --prefix=$ss_install_dir --disable-documentation
@@ -116,7 +116,8 @@ ln -s $ss_install_dir/bin/ss-manager /usr/bin/ss-manager
 
 # install ss-mu-go
 echo -e "\033[42;34mInstall Shadowsocks-libev manyuser manager\033[0m"
-wget -c -O /usr/bin/ss-libev-mu $mu_download_url
+# 不能用-c因为可能会误识别为同一个文件的断点续传
+wget -O /usr/bin/ss-libev-mu $mu_download_url
 chmod a+x /usr/bin/ss-libev-mu
 # set systemd service
 cat > /etc/systemd/system/shadowsocks.service <<EOF
@@ -163,13 +164,11 @@ cat > /etc/ss_mu.json <<EOF
 EOF
 
 systemctl daemon-reload
-systemctl stop shadowsocks.service
-systemctl stop shadowsocks-mu.service
 systemctl enable shadowsocks.service
 systemctl enable shadowsocks-mu.service
 
 # If run
-if [ $run ];then
+if $run ;then
 echo -e "\033[42;34mRun Shadowsocks-libev\033[0m"
 systemctl start shadowsocks.service
 systemctl start shadowsocks-mu.service
