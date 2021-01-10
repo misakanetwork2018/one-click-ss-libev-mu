@@ -15,11 +15,11 @@ api_domain=""
 while [ -n "$1" ]
 do
 	case "$1" in
-		-k|--key) key=$OPTARG;shift 2;;
+		-k|--key) key=$OPTARG;shift 1;;
 		-r|--run) run=true;shift 1;;
 		-c|--caddy) install_caddy=true;shift 1;;
-		-u|--url) api_domain=$OPTARG;shift 2;;
-		--) shift 1;;
+		-u|--url) api_domain=$OPTARG;shift 1;;
+		*) shift 1;;
         esac
 done
 
