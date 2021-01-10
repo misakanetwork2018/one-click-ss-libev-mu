@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GETOPT_ARGS=`getopt -o k::r -l key::,run -- "$@"`
+GETOPT_ARGS=`getopt -o k::r,c,u:: -l key::,run,caddy,url:: -- "$@"`
 eval set -- "$GETOPT_ARGS"
 OLD_IFS="$IFS"
 IFS=" "
@@ -8,6 +8,8 @@ arguments=($*)
 IFS="$OLD_IFS"
 key=`head -c 500 /dev/urandom | tr -dc a-z0-9A-Z | head -c 32`
 run=false
+install_caddy=false
+api_domain=""
 
 #获取参数
 while [ -n "$1" ]
@@ -15,6 +17,8 @@ do
 	case "$1" in
 		-k|--key) key=$OPTARG;shift 2;;
 		-r|--run) run=true;shift 1;;
+		-c|--caddy) install_caddy=true;shift 1;;
+		-u|--url) api_domain=$OPTARG;shift 2;;
 		--) shift 1;;
         esac
 done
@@ -51,6 +55,15 @@ Get_Dist_Name()
 function instdpec()
 {
 	if [ "$1" == "CentOS" ] || [ "$1" == "CentOS7" ];then
+	    if $install_caddy; then
+	    if [ "$PM" == "yum" ]; then
+	        yum -y install yum-plugin-copr
+            yum -y copr enable @caddy/caddy
+	    else
+	        dnf -y install 'dnf-command(copr)'
+            dnf -y copr enable @caddy/caddy
+	    fi
+	    fi
 		$PM -y groupinstall "Development Tools"
 		$PM -y install epel-release
 		$PM -y install wget jq
@@ -59,6 +72,10 @@ mbedtls-devel \
 libev-devel \
 c-ares-devel
 	elif [ "$1" == "Debian" ] || [ "$1" == "Raspbian" ] || [ "$1" == "Ubuntu" ];then
+	    if $install_caddy; then
+	        echo "deb [trusted=yes] https://apt.fury.io/caddy/ /" \
+            | sudo tee -a /etc/apt/sources.list.d/caddy-fury.list
+	    fi
 		$PM update
 		$PM -y install wget jq
 		$PM -y install build-essential
@@ -153,19 +170,43 @@ WantedBy=multi-user.target
 EOF
 
 # write config file
-
+if $install_caddy ;then
+    ADDRESS="127.0.0.1:8080"
+else
+    ADDRESS="0.0.0.0:8080"
+fi
 cat > /etc/ss_mu.json <<EOF
 {
     "manager_address": "/var/run/shadowsocks-manager.sock",
     "bind_address": "/var/run/ss-libev-mu.sock",
     "key": "${key}",
-    "address": "0.0.0.0:8080"
+    "address": "${ADDRESS}"
 }
 EOF
 
 systemctl daemon-reload
 systemctl enable shadowsocks.service
 systemctl enable shadowsocks-mu.service
+
+# If use caddy
+if $install_caddy ;then
+
+#Install Caddy v2
+$PM -y install caddy
+if [ $? -ne 0 ]; then
+    echo "Failed to install Caddy. Please try again later."
+    exit 1
+fi
+#Set Caddy Proxy
+cat > /etc/caddy/Caddyfile <<EOF
+${api_domain}
+{
+  tls moqiaoduo@gmail.com
+  reverse_proxy localhost:8080
+}
+EOF
+
+fi
 
 # If run
 if $run ;then
