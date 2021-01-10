@@ -23,3 +23,9 @@ r|run：安装完成后运行
 ```
 
 不提供参数的情况下，将会自行生成32位Key，安装最后一句显示
+
+## 升级
+一键命令：
+```
+wget --no-check-certificate -O ./upgrade.sh https://raw.githubusercontent.com/misakanetwork2018/one-click-ss-libev-mu/main/upgrade.sh && sh upgrade.sh
+```

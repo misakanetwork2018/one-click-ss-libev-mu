@@ -1,25 +1,29 @@
 #!/bin/sh
 
-GETOPT_ARGS=`getopt -o k::r,c,u:: -l key::,run,caddy,url:: -- "$@"`
-eval set -- "$GETOPT_ARGS"
-OLD_IFS="$IFS"
-IFS=" "
-arguments=($*)
-IFS="$OLD_IFS"
 key=`head -c 500 /dev/urandom | tr -dc a-z0-9A-Z | head -c 32`
 run=false
 install_caddy=false
 api_domain=""
 
 #获取参数
-while [ -n "$1" ]
+while getopts "u:k:cr" arg
 do
-	case "$1" in
-		-k|--key) key=$OPTARG;shift 1;;
-		-r|--run) run=true;shift 1;;
-		-c|--caddy) install_caddy=true;shift 1;;
-		-u|--url) api_domain=$OPTARG;shift 1;;
-		*) shift 1;;
+	case $arg in
+		k)
+		    key=$OPTARG
+		    ;;
+		r) 
+		    run=true;;
+		c) 
+		    install_caddy=true
+		    ;;
+		u) 
+		    api_domain=$OPTARG
+		    ;;
+		?)  
+            echo "Unkonw argument, exit"
+            exit 1
+        ;;
         esac
 done
 
@@ -205,6 +209,7 @@ ${api_domain}
   reverse_proxy localhost:8080
 }
 EOF
+systemctl enable caddy.service
 
 fi
 
@@ -213,6 +218,7 @@ if $run ;then
 echo -e "\033[42;34mRun Shadowsocks-libev\033[0m"
 systemctl start shadowsocks.service
 systemctl start shadowsocks-mu.service
+systemctl start caddy.service
 fi
 
 # Disable and stop firewalld
