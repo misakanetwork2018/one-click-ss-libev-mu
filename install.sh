@@ -164,6 +164,7 @@ After=network.target
 Wants=network.target
 
 [Service]
+Environment='GIN_MODE=release'
 Restart=on-failure
 Type=simple
 PIDFile=/var/run/ss-libev-mu.pid
