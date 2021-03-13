@@ -167,6 +167,8 @@ Wants=network.target
 Environment='GIN_MODE=release'
 Restart=on-failure
 Type=simple
+LimitNOFILE=40960
+LimitNPROC=40960
 PIDFile=/var/run/ss-libev-mu.pid
 ExecStart=/usr/bin/ss-libev-mu -c /etc/ss_mu.json
 
