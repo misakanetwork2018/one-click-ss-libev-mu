@@ -4,9 +4,10 @@ key=`head -c 500 /dev/urandom | tr -dc a-z0-9A-Z | head -c 32`
 run=false
 install_caddy=false
 api_domain=""
+email="misakanetwork2018@gmail.com"
 
 #获取参数
-while getopts "u:k:cr" arg
+while getopts "u:k:e:cr" arg
 do
 	case $arg in
 		k)
@@ -20,6 +21,8 @@ do
 		u) 
 		    api_domain=$OPTARG
 		    ;;
+		e)
+		    email=$OPTARG
 		?)  
             echo "Unkonw argument, exit"
             exit 1
@@ -208,7 +211,7 @@ fi
 cat > /etc/caddy/Caddyfile <<EOF
 ${api_domain}
 {
-  tls moqiaoduo@gmail.com
+  tls ${email}
   reverse_proxy localhost:8080
 }
 EOF
