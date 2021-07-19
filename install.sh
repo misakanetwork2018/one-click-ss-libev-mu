@@ -23,6 +23,7 @@ do
 		    ;;
 		e)
 		    email=$OPTARG
+		    ;;
 		?)  
             echo "Unkonw argument, exit"
             exit 1
