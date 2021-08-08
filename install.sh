@@ -106,7 +106,15 @@ instdpec $DISTRO;
 
 # config
 ss_download_url=`curl -s https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url"`
+if [ ! -n "$ss_download_url" ]; then
+echo "Get Shadowsocks Download URL fail. Please try again."
+exit 1;
+fi
 mu_download_url=`curl -s https://api.github.com/repos/misakanetwork2018/ss-libev-mu/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url"`
+if [ ! -n "$mu_download_url" ]; then
+echo "Get Shadowsocks-Mu Download URL fail. Please try again."
+exit 1;
+fi
 ss_install_dir=/usr/local/shadowsocks-libev
 
 # install libsodium
