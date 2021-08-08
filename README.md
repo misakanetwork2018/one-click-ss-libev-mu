@@ -13,7 +13,7 @@ shadowsocks-libev 与 ss-libev-mu 的一键脚本
 
 一键命令：
 ```
-wget --no-check-certificate -O ./install.sh https://raw.githubusercontent.com/misakanetwork2018/one-click-ss-libev-mu/main/install.sh && sh install.sh
+wget --no-check-certificate -O ./install.sh https://raw.githubusercontent.com/misakanetwork2018/one-click-ss-libev-mu/main/install.sh && bash install.sh
 ```
 
 参数：
@@ -30,5 +30,5 @@ e: 电子邮箱，为了申请SSL证书，不安装caddy可不填
 ## 升级
 一键命令：
 ```
-wget --no-check-certificate -O ./upgrade.sh https://raw.githubusercontent.com/misakanetwork2018/one-click-ss-libev-mu/main/upgrade.sh && sh upgrade.sh
+wget --no-check-certificate -O ./upgrade.sh https://raw.githubusercontent.com/misakanetwork2018/one-click-ss-libev-mu/main/upgrade.sh && bash upgrade.sh
 ```
