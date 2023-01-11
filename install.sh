@@ -82,7 +82,7 @@ c-ares-devel
 	elif [ "$1" == "Debian" ] || [ "$1" == "Raspbian" ] || [ "$1" == "Ubuntu" ];then
 	    if $install_caddy; then
 	        echo "deb [trusted=yes] https://apt.fury.io/caddy/ /" \
-            | sudo tee -a /etc/apt/sources.list.d/caddy-fury.list
+            | tee -a /etc/apt/sources.list.d/caddy-fury.list
 	    fi
 		$PM update
 		$PM -y install wget jq curl
