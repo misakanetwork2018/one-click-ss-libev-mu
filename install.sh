@@ -74,7 +74,7 @@ function instdpec()
 	    fi
 		$PM -y groupinstall "Development Tools"
 		$PM -y install epel-release
-		$PM -y install wget jq
+		$PM -y install wget jq curl
 		$PM -y install pcre-devel \
 mbedtls-devel \
 libev-devel \
@@ -85,7 +85,7 @@ c-ares-devel
             | sudo tee -a /etc/apt/sources.list.d/caddy-fury.list
 	    fi
 		$PM update
-		$PM -y install wget jq
+		$PM -y install wget jq curl
 		$PM -y install build-essential
 		$PM -y install libpcre3-dev \
 libmbedtls-dev \
