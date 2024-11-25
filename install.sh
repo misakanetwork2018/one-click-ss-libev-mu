@@ -122,12 +122,12 @@ ss_install_dir=/usr/local/shadowsocks-libev
 # install libsodium
 if [ ! -f "/etc/ld.so.conf.d/usr_local_lib.conf" ]; then
 echo -e "\033[42;34mInstall libsodium\033[0m"
-wget -O /tmp/libsodium-1.0.17.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.17/libsodium-1.0.17.tar.gz
-if [ ! -f "/tmp/libsodium-1.0.17.tar.gz" ]; then
+wget -O /tmp/libsodium-1.0.20.tar.gz https://github.com/jedisct1/libsodium/releases/download/1.0.20-RELEASE/libsodium-1.0.20.tar.gz
+if [ ! -f "/tmp/libsodium-1.0.20.tar.gz" ]; then
 echo "Download fail. Please try again."
 exit 1;
 fi
-tar xf /tmp/libsodium-1.0.17.tar.gz -C /tmp && cd /tmp/libsodium-1.0.17
+tar xf /tmp/libsodium-1.0.20.tar.gz -C /tmp && cd /tmp/libsodium-1.0.20
 ./configure && make -j2 && make install
 echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
 ldconfig
