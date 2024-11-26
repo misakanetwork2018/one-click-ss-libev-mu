@@ -107,12 +107,12 @@ echo -e "\033[42;34mInstall dependent packages\033[0m"
 instdpec $DISTRO;
 
 # config
-ss_download_url=`curl -s https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url"`
+ss_download_url=`curl -L https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url"`
 if [ ! -n "$ss_download_url" ]; then
 echo "Get Shadowsocks Download URL fail. Please try again."
 exit 1;
 fi
-mu_download_url=`curl -s https://api.github.com/repos/misakanetwork2018/ss-libev-mu/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url"`
+mu_download_url=`curl -L https://api.github.com/repos/misakanetwork2018/ss-libev-mu/releases/latest | jq -r ".assets[] | select(.name) | .browser_download_url"`
 if [ ! -n "$mu_download_url" ]; then
 echo "Get Shadowsocks-Mu Download URL fail. Please try again."
 exit 1;
