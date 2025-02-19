@@ -227,6 +227,7 @@ ${api_domain}
 }
 EOF
 systemctl enable caddy.service
+systemctl stop caddy.service
 
 fi
 
